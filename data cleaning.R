@@ -72,11 +72,11 @@ DataMathilde$HAB1 <-  as.logical(DataMathilde$HAB1)
 DataWilliam$SRC <-  as.integer(DataWilliam$SRC)
 
 
-sum(DataAlexreese$N)+sum(DataEulalieruelle$N)+sum(DataMartinloockx$N)+sum(DataAlexlefebre$N)+sum(DataWilliam$N)+sum(DataMathilde$N)
-#8067 bees
+sum(DataAlexreese$N)+sum(DataEulalieruelle$N)+sum(DataMartinloockx$N)+sum(DataAlexlefebre$N)
+#6362 bees
 
 
-data_total <- bind_rows(DataAlexreese, DataEulalieruelle, DataMartinloockx, DataAlexlefebre,DataMathilde,DataWilliam)
+data_total <- bind_rows(DataAlexreese, DataEulalieruelle, DataMartinloockx, DataAlexlefebre)
 
 data_total_sp <- data_total %>%
   dplyr::group_by(SPEC.TAX) %>%
@@ -86,7 +86,6 @@ data_total_sp <- data_total %>%
 data_total <- data_total %>% filter(SPEC.TAXPRIO != "Andrena  sp.")
 data_total <- data_total %>% filter(SPEC.TAXPRIO != "Lasioglossum  sp.")
 data_total <- data_total %>% filter(SPEC.TAXPRIO != "Osmia latreillei")
-data_total <- data_total %>% filter(SPEC.TAXPRIO != "Hylaeus  sp.")
 
 data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Bombus pascuorum floralis")]<-"Bombus pascuorum"
 data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Bombus pascuorum floralis")]<-"Bombus pascuorum"
@@ -106,9 +105,9 @@ data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Halictus tumulorum")]<-
 data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("halictus tumulorum")]<-"Seladonia tumulorum"
 
 data_total_sp <- data_total %>%
-  dplyr::group_by(TOPO,Student) %>%
+  dplyr::group_by(SPEC.TAXPRIO) %>%
   dplyr::summarize(N=sum(N))
-# 162 sp total. remove Hylaeus sp.?
+# 151 sp total. 
 
 
 ######### filter dataset
@@ -129,14 +128,10 @@ data_total_samplings <- data_total_filtered %>%
 data_total_filtered2 <- data_total_filtered%>%
   inner_join(data_total_samplings,by=c("TOPO","STAT.CODE","Student"))
 
-sum(data_total_filtered2$N)#7941
+sum(data_total_filtered2$N)#6347
 
 
-ggplot(data_total_filtered, aes(y=abundance, x=sampling_events)) + 
-  geom_point(alpha=0.5) + 
-  theme_classic() 
-
-#### Check sample size per student
+#### Check number of bees collected per sampling per student
 
 data_total_students <- data_total_filtered %>%
   #transform(., Year = substr(DAT2, 1, 4), Month = substr(DAT2, 5, 6), Day = substr(DAT2, 7, 8))%>%
@@ -158,7 +153,7 @@ ggplot(data_total_students, aes(y=abundance, x=Student)) +
 data_total_sp2 <- data_total_filtered2 %>%
   dplyr::group_by(SPEC.TAXPRIO) %>%
   dplyr::summarize(N=sum(N))
-# 161 sp 
+# 151 sp 
 
 
 Beetraits <- read.csv("Traits_bees.csv",header = T, sep = ";") %>%
@@ -166,8 +161,7 @@ Beetraits <- read.csv("Traits_bees.csv",header = T, sep = ";") %>%
   dplyr::select(-ï..espece)
 
 data_total_with_traits <- data_total_filtered2 %>%
-  left_join(Beetraits,by="SPEC.TAXPRIO") %>%
-  dplyr::filter(Endangered=="Yes"|Endangered=="Almost")
+  left_join(Beetraits,by="SPEC.TAXPRIO") 
 
 
 ggplot(data_total_with_traits, aes(y=N,x=Endangered)) + 
@@ -175,15 +169,10 @@ ggplot(data_total_with_traits, aes(y=N,x=Endangered)) +
   theme_classic() 
 
 
-############ trastejar dataset
 
+############ plot sites on space
 
-
-
-
-
-
-data_total_filtered <- select (data_total,SPEC.TAXPRIO,SPEC.GEN,SPEC.GR2,SEX,STAT.CODE,N,TOPO,LATI,LONG,Student,DAT2) %>%
+data_total_filtered <- select(data_total,SPEC.TAXPRIO,SPEC.GEN,SPEC.GR2,SEX,STAT.CODE,N,TOPO,LATI,LONG,Student,DAT2) %>%
   dplyr::group_by(TOPO) %>%
   dplyr::filter(Student!="Mathilde")%>%
   dplyr::summarize(latitude=mean(LATI),longitude=mean(LONG))%>%
@@ -192,8 +181,28 @@ data_total_filtered <- select (data_total,SPEC.TAXPRIO,SPEC.GEN,SPEC.GR2,SEX,STA
 ggplot(data_total_filtered, aes(x = longitude, y = latitude)) + 
   geom_point() +
   theme_bw() +
-  theme(legend.position = "top")
+  theme(legend.position = "top")+
+  coord_fixed()
 
+
+
+
+################ different habitats for each site
+
+habitats <- read.csv("listetype.csv",header = T, sep = ";") %>%
+  mutate(STAT.CODE=STATCODE)  %>%
+  select(STAT.CODE,type)
+
+data_total_with_habitats <- data_total_filtered2 %>%
+  left_join(habitats,by="STAT.CODE")%>%
+  dplyr::group_by(STAT.CODE,type) %>%
+  dplyr::summarize(Abundance=sum(N),richness=n_distinct(SPEC.TAXPRIO))
+
+
+ggplot(data_total_with_habitats, aes(x = type, y = Abundance)) + 
+  geom_boxplot() +
+  theme_bw() +
+  theme(legend.position = "top")
 
 
 
@@ -218,16 +227,6 @@ ggplot(data_total_filtered, aes(x = longitude, y = latitude)) +
 
 
 ################## Buffers
-
-bufferoublie <- read.csv ( "bufferoublié.csv",header = T, sep = ",") 
-
-bufferMartin <- read.csv ( "Buffer_Martin.csv",header = T, sep = ",") 
-
-bufferAlexreese <- read.csv ( "Buffer_AlexReese.csv",header = T, sep = ";") 
-
-listetype <- read.csv ( "listetype.csv",header = T, sep = ";") 
-
-
 
 
 
