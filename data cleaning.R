@@ -1,5 +1,5 @@
 
-setwd("C:/Users/535388/OneDrive - UMONS/R folders/Habitats/data")
+setwd("C:/Users/535388/OneDrive - UMONS/R folders/Habitats/Data correct")
 
 library('ggpubr')
 library("SpatialTools")
@@ -38,36 +38,16 @@ library("ggplot2")
 ############ Data cleaning
 
 
-DataAlexreese <- read.csv("Data-AlexReese.csv",header = T, sep = ";") %>%
-  dplyr::group_by(TOPO) %>%
-  dplyr::summarize(N=sum(N),samplings=n_distinct(DAT2))
-DataEulalieruelle <- read.csv("Data-Eulalie.csv",header = T, sep = ";")%>%
-  dplyr::group_by(TOPO) %>%
-  dplyr::summarize(N=sum(N),samplings=n_distinct(DAT2))
-DataMartinloockx <- read.csv("Data-Loockx.csv",header = T, sep = ";")%>%
-  dplyr::group_by(TOPO) %>%
-  dplyr::summarize(N=sum(N),samplings=n_distinct(DAT2))
-DataAlexlefebre <- read.csv("DataAlexLefebvre.csv",header = T, sep = ";")%>%
-  dplyr::group_by(TOPO) %>%
-  dplyr::summarize(N=sum(N),samplings=n_distinct(DAT2))
-DataWilliam <- read.csv("Data-William.csv",header = T, sep = ";")%>%
-  dplyr::group_by(TOPO) %>%
-  dplyr::summarize(N=sum(N),samplings=n_distinct(DAT2))
-DataMathilde <- read.csv("Data-Mathilde.csv",header = T, sep = ";")%>%
-  dplyr::group_by(TOPO) %>%
-  dplyr::summarize(N=sum(N),samplings=n_distinct(DAT2))
+Bees <- read.csv("Data_bees_simplified.csv",header = T, sep = ";") %>%
+  dplyr::filter(!is.na(SPEC_ID)) %>%
+  transform(., Year = substr(DAT2, 1, 4), Month = substr(DAT2, 5, 6), Day = substr(DAT2, 7, 8))%>%
+  dplyr::filter(Year==2020)
 
+  dplyr::group_by(REC) %>%
+  dplyr::summarize(N=sum(N))
 
+  
 
-DataAlexreese <- read.csv ( "Data-AlexReese.csv",header = T, sep = ";") %>% mutate(Student="AlexReese")
-DataEulalieruelle <- read.csv ( "Data-Eulalie.csv",header = T, sep = ";") %>% mutate(Student="Eulalie")
-DataMartinloockx <- read.csv ( "Data-Loockx.csv",header = T, sep = ";") %>% mutate(Student="Martinloockx") 
-DataAlexlefebre <- read.csv ( "DataAlexLefebvre.csv",header = T, sep = ";") %>% mutate(Student="Alexlefebre") 
-DataWilliam <- read.csv ( "Data-William.csv",header = T, sep = ";") %>% mutate(Student="William")%>%
-  dplyr::filter(DAT2 > 20190520)
-DataMathilde <- read.csv ( "Data-Mathilde.csv",header = T, sep = ";") %>% mutate(Student="Mathilde")%>%
-  dplyr::filter(DAT2 > 20180520) %>%
-  mutate(STAT.CODE = stat_memo)
 DataMathilde$HAB1 <-  as.logical(DataMathilde$HAB1)
 DataWilliam$SRC <-  as.integer(DataWilliam$SRC)
 
@@ -83,31 +63,6 @@ data_total_sp <- data_total %>%
   dplyr::summarize(N=sum(N))
 
 
-data_total <- data_total %>% filter(SPEC.TAXPRIO != "Andrena  sp.")
-data_total <- data_total %>% filter(SPEC.TAXPRIO != "Lasioglossum  sp.")
-data_total <- data_total %>% filter(SPEC.TAXPRIO != "Osmia latreillei")
-
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Bombus pascuorum floralis")]<-"Bombus pascuorum"
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Bombus pascuorum floralis")]<-"Bombus pascuorum"
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Bombus terrestris terrestris")]<-"Terrestribombus sp."
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Bombus terrestris terrestris")]<-"Terrestribombus sp."
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Bombus terrestris")]<-"Terrestribombus sp."
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Bombus lucorum")]<-"Terrestribombus sp."
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Bombus hypnorum ericetorum")]<-"Bombus hypnorum"
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Bombus hortorum hortorum")]<-"Bombus hortorum"
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Bombus (Bombus)  sp.")]<-"Terrestribombus sp."
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Bombus campestris campestris")]<-"Bombus campestris"
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Chalicodoma ericetorum")]<-"Megachile ericetorum"
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Hoplosmia spinulosa")]<-"Osmia spinulosa"
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("osmia spinulosa")]<-"Osmia spinulosa"
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Halictus confusus")]<-"Seladonia confusa"
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("Halictus tumulorum")]<-"Seladonia tumulorum"
-data_total$SPEC.TAXPRIO[data_total$SPEC.TAXPRIO  %in% c("halictus tumulorum")]<-"Seladonia tumulorum"
-
-data_total_sp <- data_total %>%
-  dplyr::group_by(SPEC.TAXPRIO) %>%
-  dplyr::summarize(N=sum(N))
-# 151 sp total. 
 
 
 ######### filter dataset
