@@ -1,6 +1,6 @@
 ﻿espece;ITD;STI;SCI;Nesting;Lectisme;Sociality;Statut IUCN;Endangered
 Ammobates punctatus;1.87;10.146;6.8903;Underground;Polylectic;Cleptoparasite;CR;Yes
-Andrena albofasciata;2.24;10.058;5.6263;Underground;Polylectic;Solitary;NT;Almost
+Andrena albofasciata;2.24;10.058;5.6263;Underground;Polylectic;Solitary;DD;NA
 Andrena angustior;1.88;9.6383;4.8707;Underground;Polylectic;Solitary;NT;Almost
 Andrena barbilabris;2.34;6.88;6.2917;Underground;Polylectic;Solitary;LC;No
 Andrena bicolor;2.1;8.0216;5.6914;Underground;Polylectic;Solitary;LC;No
@@ -24,7 +24,7 @@ Andrena mitis;2.3;9.2406;6.5379;Underground;Oligolectic;Solitary;LC;No
 Andrena nigroaenea;2.84;8.2147;5.7625;Underground;Polylectic;Solitary;LC;No
 Andrena nitida;2.97;8.6123;5.9711;Underground;Polylectic;Solitary;LC;No
 Andrena nitidiuscula;1.57;9.9224;6.7359;Underground;Oligolectic;Solitary;VU;Yes
-Andrena ovatula;2.24;10.058;5.6263;Underground;Polylectic;Solitary;NT;Almost
+Andrena ovatula;2.24;10.058;5.6263;Underground;Oligolectic;Solitary;DD;NA
 Andrena propinqua;1.89;No data;No data;Underground;Polylectic;Solitary;DD;NA
 Andrena proxima;1.72;9.5222;5.9878;Underground;Oligolectic;Solitary;LC;No
 Andrena pusilla;1.39;9.8315;5.912;Underground;Polylectic;Solitary;DD;NA
@@ -43,7 +43,7 @@ Anthophora furcata;3.2;6.2395;7.0203;Above;Polylectic;Solitary;LC;No
 Anthophora plumipes;4.33;9.793;5.8541;Underground;Polylectic;Solitary;LC;No
 Anthophora quadrimaculata;3.25;7.1189;6.7702;Underground;Polylectic;Solitary;LC;No
 Anthophora retusa;3.73;7.2045;6.7773;Underground;Polylectic;Solitary;EN;Yes
-Bombus barbutellus;5.47;8.428;5.1126;Mix;Polylectic;Social parasite;EN;Yes
+Bombus barbutellus;5.47;8.428;5.1126;Mix;Polylectic;Social parasite;CR;Yes
 Bombus bohemicus;4.6;6.1922;6.3845;Mix;Polylectic;Social parasite;NT;Almost
 Bombus campestris;5.8;7.0124;6.155;Mix;Polylectic;Social parasite;VU;Yes
 Bombus hortorum;5.83;7.5183;5.3796;Mix;Polylectic;Primitivelyeusocial;NT;Almost
@@ -60,7 +60,7 @@ Ceratina cyanea;1.39;7.4033;6.8952;Above;Polylectic;Solitary;LC;No
 Chelostoma campanularum;0.93;6.1533;7.2833;Above;Oligolectic;Solitary;LC;No
 Chelostoma florisomne;1.79;6.3763;7.0642;Above;Oligolectic;Solitary;LC;No
 Chelostoma rapunculi;1.63;6.2032;7.399;Above;Oligolectic;Solitary;LC;No
-Coelioxys aurolimbata;3.23;12.0702;7.1519;Underground;Oligolectic;Cleptoparasite;LC;No
+Coelioxys aurolimbatus;3.23;12.0702;7.1519;Underground;Oligolectic;Cleptoparasite;LC;No
 Coelioxys inermis;2.73;7.8725;6.5672;Above;Polylectic;Cleptoparasite;LC;No
 Coelioxys mandibularis;2.25;7.1765;5.9512;Underground;Polylectic;Cleptoparasite;VU;Yes
 Colletes cunicularius;3.57;6.4429;7.112;Underground;Polylectic;Solitary;LC;No
@@ -125,7 +125,7 @@ Megachile pilidens;2.67;6.1028;7.2915;Underground;Polylectic;Solitary;CR;Yes
 Megachile rotundata;2.32;10.7445;6.39;Above;Polylectic;Solitary;LC;No
 Megachile versicolor;2.67;7.3766;7.6418;Mix;Polylectic;Solitary;LC;No
 Megachile willughbiella;3.59;7.2891;6.3157;Mix;Polylectic;Solitary;LC;No
-Melecta albifrons albifrons;3.23;7.1749;6.4566;Underground;Polylectic;Cleptoparasite;LC;No
+Melecta albifrons albifrons;3.23;7.1749;6.4566;Underground;Polylectic;Cleptoparasite;NT;No
 Melitta leporina;2.39;10.0462;5.7751;Underground;Oligolectic;Solitary;NT;Almost
 Melitta nigricans;2.83;8.0213;6.3283;Underground;Oligolectic;Solitary;LC;No
 Melitta tricincta;2.73;9.7911;6.2662;Underground;Oligolectic;Solitary;VU;Yes
@@ -138,7 +138,7 @@ Nomada facilis;1.54;8.3692;5.6624;Underground;Polylectic;Cleptoparasite;LC;No
 Nomada flava;1.99;6.7513;6.7354;Underground;Polylectic;Cleptoparasite;LC;No
 Nomada flavoguttata;1.16;9.4998;5.0973;Underground;Polylectic;Cleptoparasite;LC;No
 Nomada fucata;1.88;7.0157;6.3115;Underground;Polylectic;Cleptoparasite;LC;No
-Nomada fuscicornis;1.76;9.8611;5.3261;Underground;Polylectic;Cleptoparasite;LC;No
+Nomada fuscicornis;1.76;9.8611;5.3261;Underground;Polylectic;Cleptoparasite;EN;No
 Nomada goodeniana;2.24;6.721;7.4855;Underground;Polylectic;Cleptoparasite;LC;No
 Nomada integra;1.54;8.2597;5.6696;Underground;Oligolectic;Cleptoparasite;VU;Yes
 Nomada lathburiana;2.18;10.4288;5.8363;Underground;Polylectic;Cleptoparasite;LC;No
