@@ -9,153 +9,170 @@ library(caret)
 library(lme4)
 library(lmerTest)
 library(AER)
+library(vegan3d)
 library(vegan)
 library(SpatialTools)
 library(betapart)
 library(PERMANOVA)
+library(ggpubr)
+library(cowplot)
+library(gridExtra)
+library(ggExtra)
+library(grid)
+library(multcomp)
 
 
-data_clean
-summarised
 
 ################ plots abundance-richness per habitat
+
+sites <- read.csv("sites_decided.csv",header = T, sep = ";")%>%
+  dplyr::filter(distance=="ok"|distance=="this") %>%
+  dplyr::filter(TOPO!="Mont Ostènes") #only 1 forest, drop it
 
 habitats <- read.csv("habitats.csv",header = T, sep = ";") %>%
   mutate(TOPO=Official.name)  %>%
   dplyr::select(TOPO,Habitat)%>%
-  dplyr::slice(1:112)
+  dplyr::slice(1:112) %>%
+  dplyr::inner_join(sites,by="TOPO")
+
+habitats2 <- read.csv("habitats.csv",header = T, sep = ";") %>%
+  mutate(TOPO=Official.name)  %>%
+  dplyr::select(TOPO,Habitat)%>%
+  dplyr::slice(1:112) %>%
+  dplyr::inner_join(sites,by="TOPO")%>%
+  dplyr::group_by(Habitat)%>%
+  dplyr::summarize(sites=n_distinct(TOPO)) 
+
+
 
 summarised_with_habitats <- summarised %>%
-  left_join(habitats,by="TOPO")
+  inner_join(habitats,by="TOPO")
 
 summarised_bombus_with_habitats <- summarised_bombus %>%
-  left_join(habitats,by="TOPO")
+  inner_join(habitats,by="TOPO")
 
 summarised_NO_bombus_with_habitats <- summarised_NO_bombus %>%
-  left_join(habitats,by="TOPO")
+  inner_join(habitats,by="TOPO")
 
 
-ggplot(summarised_with_habitats, aes(x = Habitat, y = Abundance)) + 
+a <- ggplot(summarised_with_habitats, aes(x = Habitat, y = Abundance)) + 
+  geom_boxplot() +
+  theme_classic() +
+  labs(x = "")+
+  labs(title ="Entire community")
+
+b <- ggplot(summarised_bombus_with_habitats, aes(x = Habitat, y = Abundance)) + 
+  geom_boxplot() +
+  theme_classic() +
+  labs(y = "")+
+  labs(x = "")+
+  labs(title ="Only Bombus")
+
+c <- ggplot(summarised_NO_bombus_with_habitats, aes(x = Habitat, y = Abundance)) + 
+  geom_boxplot() +
+  theme_classic() +
+  labs(y = "")+
+  labs(x = "")+
+  labs(title ="Excluding Bombus")
+
+d <- ggplot(summarised_with_habitats, aes(x = Habitat, y = Richness)) + 
   geom_boxplot() +
   theme_classic() 
 
-ggplot(summarised_with_habitats, aes(x = Habitat, y = Richness)) + 
+e <- ggplot(summarised_bombus_with_habitats, aes(x = Habitat, y = Richness)) + 
   geom_boxplot() +
-  theme_classic() 
+  theme_classic() +
+  labs(y = "")
 
-ggplot(summarised_bombus_with_habitats, aes(x = Habitat, y = Abundance)) + 
+
+f <- ggplot(summarised_NO_bombus_with_habitats, aes(x = Habitat, y = Richness)) + 
   geom_boxplot() +
-  theme_classic() 
-
-ggplot(summarised_bombus_with_habitats, aes(x = Habitat, y = Richness)) + 
-  geom_boxplot() +
-  theme_classic() 
-
-ggplot(summarised_NO_bombus_with_habitats, aes(x = Habitat, y = Abundance)) + 
-  geom_boxplot() +
-  theme_classic() 
-
-ggplot(summarised_NO_bombus_with_habitats, aes(x = Habitat, y = Richness)) + 
-  geom_boxplot() +
-  theme_classic() 
+  theme_classic()+
+  labs(y = "")
 
 
-
-
-
-# + phylogenetic diversity
-# + originality index
-
-
-
+ggarrange(a,b,c,d,e,f, ncol = 3, nrow = 2,labels = c("(a)", "(b)","(c)","(d)","(e)","(f)"))
 
 
 
 ################ comparison between habitats abundance-richness-etc
 
-
+# Abundance - all data
+summarised_with_habitats$Habitat <- factor(summarised_with_habitats$Habitat)
 fit <- glm(Abundance~Habitat, family=poisson, data=summarised_with_habitats)
 hist(resid(fit))
 dispersiontest(fit,trafo = NULL, alternative = "greater")
 fit <- glm.nb(Abundance~Habitat, data=summarised_with_habitats)
 summary(fit)
+summary(glht(fit, mcp(Habitat="Tukey")))
 
-
+# richness - all data
 fit <- glm(Richness~Habitat, family=poisson, data=summarised_with_habitats)
 hist(resid(fit))
 dispersiontest(fit,trafo = NULL, alternative = "greater")
 fit <- glm.nb(Richness~Habitat, data=summarised_with_habitats)
 summary(fit)
+summary(glht(fit, mcp(Habitat="Tukey")))
 
-
+# abundance - bombus
+summarised_bombus_with_habitats$Habitat <- factor(summarised_bombus_with_habitats$Habitat)
 fit <- glm(Abundance~Habitat, family=poisson, data=summarised_bombus_with_habitats)
 hist(resid(fit))
 dispersiontest(fit,trafo = NULL, alternative = "greater")
 fit <- glm.nb(Abundance~Habitat, data=summarised_bombus_with_habitats)
 summary(fit)
+summary(glht(fit, mcp(Habitat="Tukey")))
 
-
+# richness - bombus
 fit <- glm(Richness~Habitat, family=poisson, data=summarised_bombus_with_habitats)
 hist(resid(fit))
 dispersiontest(fit,trafo = NULL, alternative = "greater")
 summary(fit)
+summary(glht(fit, mcp(Habitat="Tukey")))
 
-
+# abundance - data without bombus
+summarised_NO_bombus_with_habitats$Habitat <- factor(summarised_NO_bombus_with_habitats$Habitat)
 fit <- glm(Abundance~Habitat, family=poisson, data=summarised_NO_bombus_with_habitats)
 hist(resid(fit))
 dispersiontest(fit,trafo = NULL, alternative = "greater")
 fit <- glm.nb(Abundance~Habitat, data=summarised_NO_bombus_with_habitats)
 summary(fit)
+summary(glht(fit, mcp(Habitat="Tukey")))
 
-
+# richness - data without bombus
+summarised_bombus_with_habitats$Habitat <- factor(summarised_bombus_with_habitats$Habitat)
 fit <- glm(Richness~Habitat, family=poisson, data=summarised_NO_bombus_with_habitats)
 hist(resid(fit))
 dispersiontest(fit,trafo = NULL, alternative = "greater")
 fit <- glm.nb(Richness~Habitat, data=summarised_NO_bombus_with_habitats)
 summary(fit)
-
-
-# + posthoc test to compare
-
+summary(glht(fit, mcp(Habitat="Tukey")))
 
 
 ################## comparison beta-diversity between habitats
 
-# betadiv
+# NMDS. Stress is 0.28, so not super useful
 
 data_betadiv <- data_clean %>%
   group_by(TOPO, SPEC.TAXPRIO) %>% 
-  dplyr::summarize(Abundance=sum(N)) 
-  
+  dplyr::summarize(Abundance=sum(N)) %>% 
+  tidyr::spread(SPEC.TAXPRIO, Abundance) %>%
+  ungroup() %>%
+  dplyr::select(-TOPO)
+
+data_betadiv[is.na(data_betadiv)] <- 0 # the above generates NA, transform to 0
 
 
-database1_betadiv_with_sites <- data_clean %>%
-  group_by(Join_ID, Taxon) %>% 
-  dplyr::summarize(Abundance=sum(Abundance)) %>% 
-  tidyr::spread(Taxon, Abundance) %>%
-  ungroup()
+example_NMDS=metaMDS(data_betadiv,k=2,trymax=100)
+stressplot(example_NMDS)
+plot(example_NMDS)
+ordiplot(example_NMDS,type="n")
+orditorp(example_NMDS,display="species",col="red",air=0.01)
+orditorp(example_NMDS,display="sites",cex=1.25,air=0.01)
 
-library(vegan3d)
-library(vegan)
-
-dis<- vegdist(data_betadiv, method="bray", binary=FALSE, diag=FALSE, upper=FALSE, na.rm = FALSE)
-
-m<-monoMDS(dis, k = 3,  threshold = 0.8, maxit = 200, weakties = TRUE, stress = 1,
-           scaling = TRUE, pc = TRUE, smin = 1e-4, sfgrmin = 1e-7,sratmax=0.99999) 
-mplot(m)
-stressplot(m)
-
-#####couleur 
-couleurtype <- select(type,type, couleur)
-couleur <- select(couleurtype, couleur)
-couleur <- distinct(couleur)
-
-#####NMDS3D
-ordiplot3d( lty.hide = 10,ax.col = NA,type = "h",angle = 30,m,pch = 19,display="sites",col=type$couleur, grid = FALSE)
-legend("topright", legend = paste('Type', c('Bois', 'Bord de route', 'Carri?re', 'Friche', 'Parc', 'Prairie', 'Terril')), pch = 16, col=couleur$couleur, cex=1, inset=c(0.02), border= NA)
-
-
-
-
-# nmds
-
+treat=summarised_bombus_with_habitats$Habitat
+ordiplot(example_NMDS,type="n")
+ordihull(example_NMDS,groups=treat,draw="polygon",col="grey90",label=F)
+orditorp(example_NMDS,display="species",col="red",air=0.01)
+orditorp(example_NMDS,display="sites",col=c(rep("green",5),rep("blue",5)),
+         air=0.01,cex=1.25)

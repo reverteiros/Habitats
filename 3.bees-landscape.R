@@ -139,4 +139,28 @@ summary(fit)
 
 ######################### Mantel of landscape composition vs betadiv
 
+data_betadiv <- data_clean %>%
+  group_by(TOPO, SPEC.TAXPRIO) %>% 
+  dplyr::summarize(Abundance=sum(N)) %>% 
+  tidyr::spread(SPEC.TAXPRIO, Abundance) %>%
+  ungroup() %>%
+  dplyr::select(-TOPO)
+
+data_betadiv[is.na(data_betadiv)] <- 0 # the above generates NA, transform to 0
+
+
+
+database1_betadiv_matrix <- as.matrix(database1_betadiv)
+database1_betadiv_matrix[database1_betadiv_matrix>0] <- 1 #convert the quantitative matrix into zeros and ones
+
+qualitative_betadiv<-beta.pair(database1_betadiv_matrix, index.family="sor") 
+
+
+####################here the dataset of composition of landscape
+
+altdist <- dist(altitude_vector$Altitude) #calculate the distance in altitude in metres between sites
+
+mantel(qualitative_betadiv$beta.sor, altdist, method = "pearson", permutations = 9999, na.rm = FALSE)
+
+
 
