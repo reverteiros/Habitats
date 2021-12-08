@@ -1,97 +1,97 @@
-TOPO;Lati;Long;distance
-Aérodrome de Maubray;50.5301;3.4918;no
-Ancien moulin;50.4214;3.9859;ok
-Ancienne Gare;50.4118;4.0187;ok
-Beaulieu;50.4498;4.0607;ok
-Bois de Bon-Secours;50.4967;3.6162;no
-Bois de Wadelincourt;50.531;3.6422;ok
-Bois d'Havré;50.4563;4.0124;ok
-Bruyère Site 1;50.49164;3.67119;no
-Bruyère Site 2;50.49289;3.67194;no
-Bruyère Site 3;50.49272;3.67358;this
-Bruyère Site 4;50.49258;3.66886;no
-Bruyère Site 5;50.49194;3.66717;this
-Camp-à-cayaux;50.4162;3.9987;ok
-Carrière Omya;50.4134;4.0058;ok
-Cascade d'Hyon;50.4378;3.967;ok
-Château d'Havré;50.4645;4.0392;ok
-Chemin de Jérusalem;50.5289;3.5108;no
-Chemin de Roucourt;50.523;3.6099;ok
-Chemin du Trainage;50.4486;3.6805;ok
-Cimetière de Spiennes;50.4237;3.9818;ok
-Cimetière d'Havré;50.4549;4.0447;ok
-Culture  de bouleaux;50.44297;4.13636;ok
-Epargne (UMONS);50.44630;3.95680;ok
-Friche des Vignobles;50.58710;3.43850;ok
-Gare;50.42760;3.94550;ok
-Géothermia (IDEA);50.46160;3.91460;ok
-Grand Large;50.47460;3.93650;ok
-Jardin suspendu;50.44680;3.95010;ok
-La Haine;50.45970;3.94540;ok
-La Trouille;50.40550;4.01330;ok
-Les Etangs;50.45730;4.11250;ok
-Marais de Douvrain Ouest;50.46160;3.84060;ok
-Marcasse;50.41670;3.83080;no
-Mer de Sable;50.49690;3.72010;ok
-Mont Ostènes;50.42190;3.90100;ok
-Mont Panisel;50.43300;3.98000;ok
-Nocarcentre Site 1;50.55572;4.14453;this
-Nocarcentre Site 2;50.55422;4.14058;no
-Nocarcentre Site 3;50.55658;4.13900;no
-Nocarcentre Site 4;50.55808;4.13722;no
-Nocarcentre Site 5;50.56047;4.14042;this
-Notre dame du petit Nimy;50.46990;3.96100;ok
-Parc de Jemappes;50.4558;3.8843;ok
-Parc des 5 rocs;50.5813;3.4303;ok
-Parc d'Obourg;50.472;4.0078;ok
-PEMH Obourg (IDEA);50.4756;3.9791;ok
-Planoi Site 1;50.62931;4.18872;this
-Planoi Site 2;50.62892;4.1895;no
-Planoi Site 3;50.62247;4.18914;ok
-Planoi Site 4;50.62878;4.18936;no
-Pont du Prince;50.4153;3.9707;ok
-Pré à Parchon;50.5194;3.8891;ok
-Prés du village;50.4459;3.9683;ok
-Ravel 98;50.4306;3.8892;ok
-Ronveaux;50.4206;3.9478;ok
-Rue du Bois;50.5435;3.4579;ok
-Rue du Carme;50.5178;3.6414;ok
-Rue du Castillon;50.4319;3.8718;no
-Rue Jean Winance;50.6063;3.4296;ok
-Rue là-dessous;50.42660;3.84560;ok
-Sainte-Waudru;50.45350;3.94730;ok
-Siège social (UMONS);50.4585;3.9511;ok
-Silex;50.4189;3.9815;ok
-Talus aux noyers;50.47053146;4.087309837;ok
-Terril Bayemont-Saint-Charles;50.4206;4.4064;ok
-Terril Belle vue du huit;50.3936;3.7552;ok
-Terril de Ciply site  2;50.4127;3.9449;no
-Terril de Ciply site 1;50.4119;3.9445;this
-Terril de la cokerie stat 1;50.4178;4.2674;no
-terril de la cokerie stat 2;50.417;4.2698;this
-Terril de l'Héribus;50.4337;3.9408;ok
-Terril d'Hensies;50.4554;3.6768;ok
-Terril du dix-huit;50.4175;3.8267;ok
-Terril du Ferrand;50.3978;3.7414;ok
-Terril du Grand Buisson;50.4134;3.8143;ok
-Terril du Quesnoy  site 2;50.4558;4.1356;this
-Terril du Quesnoy site 1;50.4552;4.1376;no
-Terril du sept huit stat 1;50.4212;3.8216;ok
-Terril du sept-huit stat 2;50.4245;3.8187;this
-Terril du sept-huit stat 3;50.4251;3.822;no
-Terril n°5 de Trazegnie site 1;50.4616;4.3151;this
-Terril n°5 de Trazegnie site 2;50.4616;4.3168;no
-Terril n°8 Pays-bas;50.4091;4.5004;ok
-Terril Naye-à-bois;50.4284;4.4029;ok
-Terril Rieu-du-Coeur;50.4298;3.8709;this
-Terril Sacré-Français site 1;50.4248;4.4343;no
-Terril Sacré-Français site 2;50.4264;4.4334;this
-Terril Saint-Antoine site 1;50.4135;3.7723;no
-Terril Saint-Antoine site 2;50.4105;3.7724;this
-Terril Saint-Antoine site 3;50.41500;3.76510;ok
-Tilou;50.49680;3.96540;ok
-Vertbois Site 1;50.60394;4.17567;no
-Vertbois Site 2;50.60258;4.17478;this
-Vertbois Site 3;50.60558;4.17558;no
-Vieille Haine;50.4561;3.8288;ok
-Village des abeilles (UMONS);50.4627;3.9553;ok
+TOPO;Lati;Long;distance;why
+Aérodrome de Maubray;50.5301;3.4918;no;too close to the border
+Ancien moulin;50.4214;3.9859;ok;
+Ancienne Gare;50.4118;4.0187;ok;
+Beaulieu;50.4498;4.0607;ok;
+Bois de Bon-Secours;50.4967;3.6162;no;too close to the border
+Bois de Wadelincourt;50.531;3.6422;ok;
+Bois d'Havré;50.4563;4.0124;ok;
+Bruyère Site 1;50.49164;3.67119;no;
+Bruyère Site 2;50.49289;3.67194;ok;
+Bruyère Site 3;50.49272;3.67358;no;
+Bruyère Site 4;50.49258;3.66886;no;
+Bruyère Site 5;50.49194;3.66717;no;
+Camp-à-cayaux;50.4162;3.9987;ok;
+Carrière Omya;50.4134;4.0058;ok;
+Cascade d'Hyon;50.4378;3.967;ok;
+Château d'Havré;50.4645;4.0392;ok;
+Chemin de Jérusalem;50.5289;3.5108;no;too close to the border
+Chemin de Roucourt;50.523;3.6099;ok;
+Chemin du Trainage;50.4486;3.6805;ok;
+Cimetière de Spiennes;50.4237;3.9818;ok;
+Cimetière d'Havré;50.4549;4.0447;ok;
+Culture  de bouleaux;50.44297;4.13636;ok;
+Epargne (UMONS);50.44630;3.95680;ok;
+Friche des Vignobles;50.58710;3.43850;ok;
+Gare;50.42760;3.94550;ok;
+Géothermia (IDEA);50.46160;3.91460;ok;
+Grand Large;50.47460;3.93650;ok;
+Jardin suspendu;50.44680;3.95010;ok;
+La Haine;50.45970;3.94540;ok;
+La Trouille;50.40550;4.01330;ok;
+Les Etangs;50.45730;4.11250;ok;
+Marais de Douvrain Ouest;50.46160;3.84060;ok;
+Marcasse;50.41670;3.83080;no;
+Mer de Sable;50.49690;3.72010;ok;
+Mont Ostènes;50.42190;3.90100;ok;
+Mont Panisel;50.43300;3.98000;ok;
+Nocarcentre Site 1;50.55572;4.14453;ok;
+Nocarcentre Site 2;50.55422;4.14058;no;
+Nocarcentre Site 3;50.55658;4.13900;no;
+Nocarcentre Site 4;50.55808;4.13722;no;
+Nocarcentre Site 5;50.56047;4.14042;ok;
+Notre dame du petit Nimy;50.46990;3.96100;ok;
+Parc de Jemappes;50.4558;3.8843;ok;
+Parc des 5 rocs;50.5813;3.4303;ok;
+Parc d'Obourg;50.472;4.0078;ok;
+PEMH Obourg (IDEA);50.4756;3.9791;ok;
+Planoi Site 1;50.62931;4.18872;ok;
+Planoi Site 2;50.62892;4.1895;no;
+Planoi Site 3;50.62247;4.18914;ok;
+Planoi Site 4;50.62878;4.18936;no;
+Pont du Prince;50.4153;3.9707;ok;
+Pré à Parchon;50.5194;3.8891;ok;
+Prés du village;50.4459;3.9683;ok;
+Ravel 98;50.4306;3.8892;ok;
+Ronveaux;50.4206;3.9478;ok;
+Rue du Bois;50.5435;3.4579;ok;
+Rue du Carme;50.5178;3.6414;ok;
+Rue du Castillon;50.4319;3.8718;ok;
+Rue Jean Winance;50.6063;3.4296;ok;
+Rue là-dessous;50.42660;3.84560;ok;
+Sainte-Waudru;50.45350;3.94730;ok;
+Siège social (UMONS);50.4585;3.9511;ok;
+Silex;50.4189;3.9815;ok;
+Talus aux noyers;50.47053146;4.087309837;ok;
+Terril Bayemont-Saint-Charles;50.4206;4.4064;ok;
+Terril Belle vue du huit;50.3936;3.7552;ok;
+Terril de Ciply site  2;50.4127;3.9449;no;
+Terril de Ciply site 1;50.4119;3.9445;ok;
+Terril de la cokerie stat 1;50.4178;4.2674;no;
+terril de la cokerie stat 2;50.417;4.2698;ok;
+Terril de l'Héribus;50.4337;3.9408;ok;
+Terril d'Hensies;50.4554;3.6768;ok;
+Terril du dix-huit;50.4175;3.8267;ok;
+Terril du Ferrand;50.3978;3.7414;ok;
+Terril du Grand Buisson;50.4134;3.8143;ok;
+Terril du Quesnoy  site 2;50.4558;4.1356;ok;
+Terril du Quesnoy site 1;50.4552;4.1376;no;
+Terril du sept huit stat 1;50.4212;3.8216;no;
+Terril du sept-huit stat 2;50.4245;3.8187;ok;
+Terril du sept-huit stat 3;50.4251;3.822;no;
+Terril n°5 de Trazegnie site 1;50.4616;4.3151;ok;
+Terril n°5 de Trazegnie site 2;50.4616;4.3168;no;
+Terril n°8 Pays-bas;50.4091;4.5004;ok;
+Terril Naye-à-bois;50.4284;4.4029;ok;
+Terril Rieu-du-Coeur;50.4298;3.8709;no;
+Terril Sacré-Français site 1;50.4248;4.4343;no;
+Terril Sacré-Français site 2;50.4264;4.4334;ok;
+Terril Saint-Antoine site 1;50.4135;3.7723;ok;
+Terril Saint-Antoine site 2;50.4105;3.7724;no;
+Terril Saint-Antoine site 3;50.41500;3.76510;ok;
+Tilou;50.49680;3.96540;ok;
+Vertbois Site 1;50.60394;4.17567;no;
+Vertbois Site 2;50.60258;4.17478;ok;
+Vertbois Site 3;50.60558;4.17558;no;
+Vieille Haine;50.4561;3.8288;ok;
+Village des abeilles (UMONS);50.4627;3.9553;ok;

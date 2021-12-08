@@ -20,6 +20,7 @@ library(gridExtra)
 library(ggExtra)
 library(grid)
 library(multcomp)
+library(PERMANOVA)
 
 
 
@@ -150,6 +151,26 @@ summary(glht(fit, mcp(Habitat="Tukey")))
 
 
 ################## comparison beta-diversity between habitats
+
+# Permanova
+
+library(vegan)
+
+data(dune)
+data(dune.env)
+
+dune.dist <- vegdist(dune, method="bray")
+
+# default test by terms
+
+dune.div <- adonis2(dune ~ Management*A1, data = dune.env, permutations = 999, method="bray")
+
+dune.div
+
+dispersion <- betadisper(dune.dist, group=dune.env$Management)
+permutest(dispersion)
+plot(dispersion, hull=FALSE, ellipse=TRUE) ##sd ellipse
+
 
 # NMDS. Stress is 0.28, so not super useful
 
