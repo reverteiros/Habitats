@@ -11,6 +11,7 @@ setwd("C:/Users/535388/OneDrive - UMONS/R folders/Habitats/Data correct")
 
 
 # run first code 1. data cleaning
+# run script 3.bees-landscape up to line 65
 
 
 data_clean_4thcorner <- data_clean %>%
