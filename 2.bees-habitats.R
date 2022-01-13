@@ -20,15 +20,21 @@ library(gridExtra)
 library(ggExtra)
 library(grid)
 library(multcomp)
-library(PERMANOVA)
+library(ape)
+library(rgdal)
+library(ggmap)
+library(gstat)
 
+
+
+# run first code 1. data cleaning
 
 
 ################ plots abundance-richness per habitat
 
 sites <- read.csv("sites_decided.csv",header = T, sep = ";")%>%
-  dplyr::filter(distance=="ok"|distance=="this") %>%
-  dplyr::filter(TOPO!="Mont Ostènes") #only 1 forest, drop it
+  dplyr::filter(distance=="ok")
+
 
 habitats <- read.csv("habitats.csv",header = T, sep = ";") %>%
   mutate(TOPO=Official.name)  %>%
@@ -55,9 +61,89 @@ summarised_bombus_with_habitats <- summarised_bombus %>%
 summarised_NO_bombus_with_habitats <- summarised_NO_bombus %>%
   inner_join(habitats,by="TOPO")
 
+################## spatial autocorrelation
+
+habitats3 <- read.csv("habitats.csv",header = T, sep = ";") %>%
+  mutate(TOPO=Official.name)  %>%
+  dplyr::slice(1:112) %>%
+  dplyr::inner_join(sites,by="TOPO") %>%
+  dplyr::mutate(Y=Lati) %>%
+  dplyr::mutate(X=Long) 
+  
+
+summarised_with_habitats3 <- summarised %>%
+  inner_join(habitats3,by="TOPO")
+
+zone.dists <- as.matrix(dist(cbind(summarised_with_habitats3$X, summarised_with_habitats3$Y)))
+zone.dists.inv <- 1/zone.dists
+diag(zone.dists.inv) <- 0
+
+Moran.I(summarised_with_habitats3$Richness, zone.dists.inv)#
+Moran.I(summarised_with_habitats3$Abundance, zone.dists.inv)#
+
+coords <- SpatialPoints(summarised_with_habitats3[, c("X", "Y")], proj4string = CRS("+proj=longlat"))
+plots <- SpatialPointsDataFrame(coords, summarised_with_habitats3)
+ddll <- spTransform(plots, CRS("+proj=longlat"))
+pts <- as.data.frame(coordinates(ddll))
+names(pts) <- c("lon", "lat")
+
+print(bubble(plots, "Richness", maxsize = 5,key.entries = 20*(1:5),col="blue"))
+print(bubble(plots, "Abundance", maxsize = 5,key.entries = 20*(1:5),col="blue"))
+
+
+summarised_bombus_with_habitats3 <- summarised_bombus %>%
+  inner_join(habitats3,by="TOPO")
+
+zone.dists <- as.matrix(dist(cbind(summarised_bombus_with_habitats3$X, summarised_bombus_with_habitats3$Y)))
+zone.dists.inv <- 1/zone.dists
+diag(zone.dists.inv) <- 0
+
+Moran.I(summarised_bombus_with_habitats3$Richness, zone.dists.inv)#
+Moran.I(summarised_bombus_with_habitats3$Abundance, zone.dists.inv)
+
+coords <- SpatialPoints(summarised_bombus_with_habitats3[, c("X", "Y")], proj4string = CRS("+proj=longlat"))
+plots <- SpatialPointsDataFrame(coords, summarised_bombus_with_habitats3)
+ddll <- spTransform(plots, CRS("+proj=longlat"))
+pts <- as.data.frame(coordinates(ddll))
+names(pts) <- c("lon", "lat")
+
+print(bubble(plots, "Richness", maxsize = 5,key.entries = 5*(1:5),col="blue"))
+print(bubble(plots, "Abundance", maxsize = 5,key.entries = 20*(1:5),col="blue"))
+
+
+summarised_NO_bombus_with_habitats3 <- summarised_NO_bombus %>%
+  inner_join(habitats3,by="TOPO")
+
+zone.dists <- as.matrix(dist(cbind(summarised_NO_bombus_with_habitats3$X, summarised_NO_bombus_with_habitats3$Y)))
+zone.dists.inv <- 1/zone.dists
+diag(zone.dists.inv) <- 0
+
+Moran.I(summarised_NO_bombus_with_habitats3$Richness, zone.dists.inv)#
+Moran.I(summarised_NO_bombus_with_habitats3$Abundance, zone.dists.inv)#
+
+coords <- SpatialPoints(summarised_NO_bombus_with_habitats3[, c("X", "Y")], proj4string = CRS("+proj=longlat"))
+plots <- SpatialPointsDataFrame(coords, summarised_NO_bombus_with_habitats3)
+ddll <- spTransform(plots, CRS("+proj=longlat"))
+pts <- as.data.frame(coordinates(ddll))
+names(pts) <- c("lon", "lat")
+
+print(bubble(plots, "Richness", maxsize = 5,key.entries = 10*(1:5),col="blue"))
+print(bubble(plots, "Abundance", maxsize = 5,key.entries = 20*(1:5),col="blue"))
+
+
+
+colours <- c("blue","red","green","yellow","orange")
+ggplot(summarised_with_habitats, aes(x = X, y = Y)) + 
+  geom_point(aes(colour=Habitat,size=4)) +
+  scale_color_manual(values=colours)+
+  theme_classic() 
+
+#########################################################
+
+
 
 a <- ggplot(summarised_with_habitats, aes(x = Habitat, y = Abundance)) + 
-  geom_boxplot() +
+  geom_boxplot(colour=) +
   theme_classic() +
   labs(x = "")+
   labs(title ="Entire community")
@@ -151,25 +237,6 @@ summary(glht(fit, mcp(Habitat="Tukey")))
 
 
 ################## comparison beta-diversity between habitats
-
-# Permanova
-
-library(vegan)
-
-data(dune)
-data(dune.env)
-
-dune.dist <- vegdist(dune, method="bray")
-
-# default test by terms
-
-dune.div <- adonis2(dune ~ Management*A1, data = dune.env, permutations = 999, method="bray")
-
-dune.div
-
-dispersion <- betadisper(dune.dist, group=dune.env$Management)
-permutest(dispersion)
-plot(dispersion, hull=FALSE, ellipse=TRUE) ##sd ellipse
 
 
 # NMDS. Stress is 0.28, so not super useful

@@ -1,7 +1,3 @@
-setwd("C:/Users/535388/OneDrive - UMONS/R folders/Habitats")
-source("data cleaning.R")
-setwd("C:/Users/535388/OneDrive - UMONS/R folders/Habitats")
-source("bees-landscape.R")
 
 
 ############### traits bees
@@ -9,13 +5,21 @@ source("bees-landscape.R")
 setwd("C:/Users/535388/OneDrive - UMONS/R folders/Habitats/Data correct")
 
 Beetraits <- read.csv("Traits_bees.csv",header = T, sep = ";") %>%
-  select(-c(Nesting_old, Mean_flying_month,Sociality)) %>%
-  mutate(SPEC.TAX=Species) %>%
-  select(-Species)
+  dplyr::select(-c(Sociality,Nesting_material)) %>%
+  mutate(SPEC.TAXPRIO=Species) %>%
+  dplyr::select(-Species)
 
-data_with_landscape_with_traits <- data_clean_with_landscape %>%
-  left_join(Beetraits,by="SPEC.TAX") 
+data_with_landscape_with_traits <- data_clean %>%
+  left_join(landcover250, by = "TOPO") %>%
+  left_join(Beetraits,by="SPEC.TAXPRIO") %>%
+  left_join(habitats,by="TOPO") 
 
+
+a <- data_with_landscape_with_traits %>%
+  dplyr::filter(SPEC.TAXPRIO != "Andrena propinqua") %>%
+  dplyr::group_by(Habitat) %>%
+  dplyr::summarize(Abundance = sum(N),mean=mean(STI),max=max(STI),min=min(STI))
+  
 
 ggplot(data_with_landscape_with_traits, aes(x=Endangered)) + 
   geom_bar(position="stack") + 
@@ -38,10 +42,6 @@ ggplot(data_with_landscape_with_traits, aes(y=ITD)) +
   theme_classic() 
 
 ggplot(data_with_landscape_with_traits, aes(y=STI)) + 
-  geom_boxplot() + 
-  theme_classic() 
-
-ggplot(data_with_landscape_with_traits, aes(y=SCI)) + 
   geom_boxplot() + 
   theme_classic() 
 

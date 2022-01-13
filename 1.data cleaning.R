@@ -6,61 +6,47 @@ library("ggplot2")
 library("dplyr")
 library(sf)
 library(reshape2)
-
+library(sp)
+library(raster)
+library(ggmap)
+library(mapr)
+library(rgbif)
+library(dismo)
 
 
 
 ############ Data cleaning
 
 
-Bees <- read.csv("Data_bees_simplified.csv",header = T, sep = ";") %>%
+Bees <- read.csv("Data_bees.csv",header = T, sep = ";") %>%
   dplyr::filter(!is.na(SPEC_ID)) %>%
   transform(., Year = substr(DAT2, 1, 4), Month = substr(DAT2, 5, 6), Day = substr(DAT2, 7, 8))%>%
   dplyr::filter(Year==2020) 
 
 
 
-
-########## how many sites we have the size
-  
-Bees_2 <- read.csv("Data_bees_simplified.csv",header = T, sep = ";") %>%
-    dplyr::filter(!is.na(SPEC_ID)) %>%
-    transform(., Year = substr(DAT2, 1, 4), Month = substr(DAT2, 5, 6), Day = substr(DAT2, 7, 8))%>%
-    dplyr::filter(Year==2020) %>%
-    dplyr::group_by(TOPO) %>%
-    dplyr::summarize(N=sum(N)) %>%
-    inner_join(read.csv("Size_sites.csv",header = T, sep = ";"),by="TOPO")
-
-sites <- read.csv("sites.csv",header = T, sep = ";")%>%
-  dplyr::filter(distance=="ok") 
-
-
-# We only have the size of 12 sites so far
-
-
-  
 ######### filter dataset
 
 data_few_columns <- dplyr::select(Bees,SPEC.TAXPRIO,SPEC.GEN,SEX,N,TOPO,DAT2)
 
 
-#### Sampling repetitions. There are some sites we only have 2 repetitions. I removed them
-
-samplings_crude <- data_few_columns %>%
-  dplyr::group_by(TOPO) %>%
-  dplyr::summarize(sampling_events=n_distinct(DAT2),N_n=sum(N)) 
-
-# check how many bees were collected per site as a function of how many samplings were conducted. The one with only 2 samplings is very low
-ggplot(samplings_crude, aes(y=N_n,x=sampling_events)) +
-  geom_point() +
-  theme_classic()
-
-# remove sites only sampled 2 times
-samplings <- data_few_columns %>%
-  dplyr::group_by(TOPO) %>%
-  dplyr::summarize(sampling_events=n_distinct(DAT2),N_n=sum(N)) %>%
-  dplyr::filter(sampling_events>2) %>%
-  dplyr::select(-c(sampling_events, N_n))
+# #### Sampling repetitions. There are some sites we only have 2 repetitions. I removed them
+# 
+# samplings_crude <- data_few_columns %>%
+#   dplyr::group_by(TOPO) %>%
+#   dplyr::summarize(sampling_events=n_distinct(DAT2),N_n=sum(N)) 
+# 
+# # check how many bees were collected per site as a function of how many samplings were conducted. The one with only 2 samplings is very low
+# ggplot(samplings_crude, aes(y=N_n,x=sampling_events)) +
+#   geom_point() +
+#   theme_classic()
+# 
+# # remove sites only sampled 2 times
+# samplings <- data_few_columns %>%
+#   dplyr::group_by(TOPO) %>%
+#   dplyr::summarize(sampling_events=n_distinct(DAT2),N_n=sum(N)) %>%
+#   dplyr::filter(sampling_events>2) %>%
+#   dplyr::select(-c(sampling_events, N_n))
 
 
 
@@ -68,16 +54,17 @@ samplings <- data_few_columns %>%
 #################### decide the sites that are not too close between them and to the border with France. Also remove the only site that is forest
 
 Coordinates <- read.csv("sites_decided.csv",header = T, sep = ";") %>%
-  dplyr::filter(distance=="ok"|distance=="this")%>%
-  dplyr::select(-distance) %>%
-  dplyr::filter(TOPO!="Mont Ostènes") #only 1 forest, drop it
+  dplyr::filter(distance=="ok")%>%
+  dplyr::select(-c(distance,why)) %>%
+  dplyr::mutate(Y=Lati) %>%
+  dplyr::mutate(X=Long) 
 
 
 data_clean <- data_few_columns%>%
-  inner_join(samplings,by=c("TOPO")) %>%
-  inner_join(Coordinates,by=c("TOPO"))
+  # inner_join(samplings,by=c("TOPO")) %>%
+  inner_join(Coordinates,by=c("TOPO")) 
 
-sum(data_clean$N)#5039
+sum(data_clean$N)#4957
 
 # separate bombus and other wild bees. They may have different trends
 
@@ -104,12 +91,26 @@ summarised_NO_bombus <- data_clean_NO_bombus %>%
   dplyr::summarize(Richness=n_distinct(SPEC.TAXPRIO),Abundance=sum(N)) 
 
 
+
+
 ############ plot sites on space
 
-ggplot(Coordinates, aes(x = Long, y = Lati)) +
-  geom_point() +
-  theme_bw() +
-  coord_fixed()
+
+coordinates(Coordinates)<-c("X","Y")
+crs(Coordinates) <- CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+
+## Mapa interactiu
+names(Coordinates) <- "name"  #required for mapr
+map_leaflet(Coordinates, lon = "X", lat = "Y")
+
+
+
+## Mapa google maps
+##plot(gmap(Coordinates, type = "satellite"))
+##points(Mercator(Coordinates), col = "red", pch = 20, cex = database$Honeybees/15)
+
+##database$Honeybee_visit_rate <- database$Honeybees/database$OVERALL_Flowers*1000
+
 
 
 
