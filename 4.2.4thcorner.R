@@ -89,7 +89,7 @@ fourth <- fourthcorner(
   modeltype = 6, # kind of permutations of columns/rows applied to tabL. This is the best version (explained in reference paper 2)
   p.adjust.method.G = "none",
   p.adjust.method.D = "none", 
-  nrepet = 9) # number of permutations. Should be really high, the higher the better
+  nrepet = 9999) # number of permutations. Should be really high, the higher the better
 
 # Correction for multiple testing, here using FDR
 fourth.adj <- p.adjust.4thcorner(
